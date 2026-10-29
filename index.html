@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geospatial Proximity Audio Ecosystem | Proximate & Live Audio</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="app-header">
+    <div class="header-branding">
+      <div class="radar-dot-pulse"></div>
+      <div>
+        <h1 class="brand-title">GEOSPATIAL PROXIMITY AUDIO</h1>
+        <p class="brand-subtitle">Module: Proximate & Live Spatial Audio Engine</p>
+      </div>
+    </div>
+    <div class="header-meta">
+      <span class="badge-role">Aman's Module • Team Task</span>
+      <div class="status-pill connected" id="engineStatus">
+        <span class="indicator-dot"></span>
+        <span id="engineStatusText">Audio Engine Ready</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="main-layout">
+    <!-- Left Column: Interactive Geospatial Radar Canvas -->
+    <section class="radar-section">
+      <div class="radar-card">
+        <div class="radar-card-header">
+          <div>
+            <h2 class="section-title">Spatial Proximity Radar</h2>
+            <p class="section-subtitle">Drag the listener avatar or click anywhere to move in geospatial space</p>
+          </div>
+          <div class="radar-actions">
+            <button class="pill-btn" id="resetPositionBtn">
+              <i data-lucide="crosshair"></i> Reset Position
+            </button>
+            <button class="pill-btn" id="toggleGridBtn">
+              <i data-lucide="grid"></i> Toggle Grid
+            </button>
+          </div>
+        </div>
+
+        <!-- Canvas Radar Viewport -->
+        <div class="canvas-container">
+          <canvas id="radarCanvas" width="800" height="520"></canvas>
+          <div class="radar-instructions">
+            <span><i data-lucide="mouse-pointer"></i> Click & Drag Blue Listener Avatar</span>
+            <span><i data-lucide="headphones"></i> Wear Headphones for 3D Stereo Panning</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Column: Live Audio Controls & Telemetry HUD -->
+    <aside class="controls-section">
+      <!-- Live Audio Master Panel -->
+      <div class="panel-card">
+        <h3 class="panel-title">
+          <i data-lucide="radio" class="title-icon text-cyan"></i> Live Audio Controls
+        </h3>
+
+        <div class="source-toggle-group">
+          <button class="source-btn active" id="btnSourceSynth">
+            <i data-lucide="volume-2"></i> Spatial Synth Tone
+          </button>
+          <button class="source-btn" id="btnSourceMic">
+            <i data-lucide="mic"></i> Live Microphone
+          </button>
+        </div>
+
+        <div class="playback-controls">
+          <button class="btn btn-primary" id="btnToggleAudio">
+            <i data-lucide="play" id="playIcon"></i>
+            <span id="playBtnText">Start Live Audio</span>
+          </button>
+          <button class="btn btn-secondary" id="btnMute">
+            <i data-lucide="volume-x"></i>
+          </button>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label">
+            <span>Master Output Volume</span>
+            <span id="masterVolValue" class="mono-num">80%</span>
+          </div>
+          <input type="range" id="masterVolSlider" min="0" max="100" value="80" class="custom-range">
+        </div>
+      </div>
+
+      <!-- Proximity Math & Attenuation Parameters -->
+      <div class="panel-card">
+        <h3 class="panel-title">
+          <i data-lucide="sliders" class="title-icon text-emerald"></i> Proximity Settings
+        </h3>
+
+        <div class="setting-row">
+          <label for="attenuationModelSelect">Decay Curve Model</label>
+          <select id="attenuationModelSelect" class="custom-select">
+            <option value="inverse" selected>Inverse Distance (Natural Acoustic)</option>
+            <option value="linear">Linear Falloff</option>
+            <option value="exponential">Exponential Decay</option>
+          </select>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label">
+            <span>Rolloff Attenuation Factor</span>
+            <span id="rolloffValue" class="mono-num">1.0x</span>
+          </div>
+          <input type="range" id="rolloffSlider" min="0.2" max="3.0" step="0.1" value="1.0" class="custom-range">
+        </div>
+
+        <div class="node-picker-group">
+          <label>Target Audio Node:</label>
+          <select id="targetNodeSelect" class="custom-select">
+            <option value="0">Node A: Main Stage Beacon (Freq: 220Hz)</option>
+            <option value="1">Node B: Voice Channel Alpha (Freq: 330Hz)</option>
+            <option value="2">Node C: Ambient Zone (Freq: 440Hz)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Real-Time Geospatial Telemetry HUD -->
+      <div class="panel-card telemetry-card">
+        <h3 class="panel-title">
+          <i data-lucide="activity" class="title-icon text-purple"></i> Real-Time Telemetry
+        </h3>
+
+        <div class="telemetry-grid">
+          <div class="tele-item">
+            <span class="tele-label">Distance to Source</span>
+            <span class="tele-val text-cyan" id="teleDistance">0.0 m</span>
+          </div>
+
+          <div class="tele-item">
+            <span class="tele-label">Effective Gain</span>
+            <span class="tele-val text-emerald" id="teleGain">0%</span>
+          </div>
+
+          <div class="tele-item">
+            <span class="tele-label">Stereo Panning</span>
+            <span class="tele-val" id="telePan">Center (0.0)</span>
+          </div>
+
+          <div class="tele-item">
+            <span class="tele-label">Proximity State</span>
+            <span class="tele-badge badge-warning" id="teleState">Calculating</span>
+          </div>
+        </div>
+
+        <!-- Live Waveform Visualizer Canvas -->
+        <div class="visualizer-wrapper">
+          <div class="visualizer-header">
+            <span>Live Frequency Spectrum</span>
+            <span class="live-pill">LIVE FFT</span>
+          </div>
+          <canvas id="visualizerCanvas" width="360" height="80"></canvas>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Scripts -->
+  <script src="proximityEngine.js"></script>
+  <script src="audioEngine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
