@@ -510,6 +510,77 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+
+  // -------------------------------------------------------------------------
+  // Presentation Demo Presets Controller
+  // -------------------------------------------------------------------------
+  const presetBtns = document.querySelectorAll(".preset-btn");
+  presetBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const type = btn.getAttribute("data-preset");
+      const target = audioNodes[targetNodeIndex];
+      let targetX = target.x;
+      let targetY = target.y;
+
+      switch (type) {
+        case "core":
+          // Glide directly into inner core radius (100% volume)
+          targetX = target.x;
+          targetY = target.y + Math.min(20, target.refDistance * 0.45);
+          break;
+        case "mid":
+          // Glide into rolloff decay zone (~50% volume)
+          const midDist = (target.refDistance + target.maxDistance) * 0.45;
+          targetX = target.x;
+          targetY = target.y + midDist;
+          break;
+        case "cutoff":
+          // Glide safely outside outer cutoff radius (0% volume)
+          targetX = target.x;
+          targetY = target.y + target.maxDistance + 35;
+          break;
+        case "left":
+          // Position listener to the left of beacon (sound pans to Right ear)
+          targetX = target.x - (target.refDistance + 70);
+          targetY = target.y;
+          break;
+        case "right":
+          // Position listener to the right of beacon (sound pans to Left ear)
+          targetX = target.x + (target.refDistance + 70);
+          targetY = target.y;
+          break;
+      }
+
+      animateListenerTo(targetX, targetY);
+    });
+  });
+
+  function animateListenerTo(destX, destY) {
+    const startX = listener.x;
+    const startY = listener.y;
+    const duration = 280; // ms
+    const startTime = performance.now();
+
+    function step(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      // Ease out cubic
+      const ease = 1 - Math.pow(1 - progress, 3);
+
+      listener.x = startX + (destX - startX) * ease;
+      listener.y = startY + (destY - startY) * ease;
+
+      // Keep within canvas bounds
+      listener.x = Math.max(20, Math.min(canvas.width - 20, listener.x));
+      listener.y = Math.max(20, Math.min(canvas.height - 20, listener.y));
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
   // Kickoff Render Loop
   requestAnimationFrame(renderLoop);
 });
