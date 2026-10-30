@@ -1,7 +1,7 @@
 /**
  * App.js
  * Main Controller for Geospatial Proximity Audio Ecosystem
- * Module: Proximate & Live Audio (Aman's Task)
+ * Module: Proximate & Live Audio (Aman Dwivedi's Task)
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -58,13 +58,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
-  // Listener State (Aman Dubey)
+  // Listener State (Aman Dwivedi)
   const listener = {
     x: 400,
     y: 380,
     radius: 14,
     isDragging: false,
-    label: "Aman (Listener)"
+    label: "Aman Dwivedi (Listener)"
   };
 
   let targetNodeIndex = 0;
@@ -338,7 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. Draw Connection Bearing Line to Target Source
     drawBearingLine(listener, targetNode, gain);
 
-    // 5. Draw Listener (Aman)
+    // 5. Draw Listener (Aman Dwivedi)
     drawListener();
 
     // 6. Draw Visualizer Spectrum
@@ -429,7 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.setLineDash([]);
   }
 
-  // Draw Listener Avatar (Aman)
+  // Draw Listener Avatar (Aman Dwivedi)
   function drawListener() {
     // Outer glow ring
     ctx.beginPath();

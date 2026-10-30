@@ -10,7 +10,7 @@
 | :--- | :--- |
 | **Project Title** | Geospatial Proximity Audio Ecosystem |
 | **Assigned Module** | Module 01: Proximate & Live Spatial Audio Engine |
-| **Student / Contributor** | **Aman Dubey** |
+| **Student / Contributor** | **Aman Dwivedi** |
 | **Branch Name** | `aman--feature` |
 | **Repository URL** | `https://github.com/amandubey0907/My-first-site-.git` |
 | **Target Review Date** | October 2026 / Academic Milestone Review |

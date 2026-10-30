@@ -1,5 +1,5 @@
 # Geospatial Proximity Audio Ecosystem
-## 🎧 Module: Proximate and Live Audio (Aman's Task)
+## 🎧 Module: Proximate and Live Audio (Aman Dwivedi's Task)
 
 This module handles **Geospatial Distance Calculation, Proximity Attenuation, and Live Spatial Audio Playback** for the Proximity Audio Ecosystem.
 
@@ -23,7 +23,7 @@ This module handles **Geospatial Distance Calculation, Proximity Attenuation, an
    - Real-time **FFT Frequency Spectrum Analyser** for live visualizer feedback.
 
 3. **Interactive 2D Geospatial Radar Viewport (`app.js` & `index.html`)**:
-   - Interactive radar canvas showing user listener pin (Aman) and multiple audio transmitters.
+   - Interactive radar canvas showing user listener pin (Aman Dwivedi) and multiple audio transmitters.
    - Drag-and-drop or click-to-move listener in real-time.
    - Live Telemetry HUD: Real-time Distance (m), Effective Gain (%), Pan angle, and Status Badge.
 
@@ -44,7 +44,7 @@ This module handles **Geospatial Distance Calculation, Proximity Attenuation, an
 1. Simply double-click `index.html` or open in VS Code with **Live Server**.
 2. Click **"Start Live Audio"** button.
 3. Wear headphones for 3D positional audio.
-4. Move the blue **Aman (Listener)** avatar around the radar:
+4. Move the blue **Aman Dwivedi (Listener)** avatar around the radar:
    - **Mouse / Touch**: Click anywhere on the radar or drag the blue avatar.
    - **Keyboard Navigation**: Use `W` / `A` / `S` / `D` or `Arrow Keys` (hold `Shift` for boost speed).
    - **Shortcuts**: Press `Space` to Play/Pause, `M` to Mute/Unmute.
