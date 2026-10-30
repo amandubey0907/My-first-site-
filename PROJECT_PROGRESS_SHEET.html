@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Project Progress Sheet - Aman Dwivedi</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 15mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      font-size: 10pt;
+      line-height: 1.45;
+    }
+
+    .header-container {
+      border-bottom: 3px solid #0284c7;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .project-title {
+      font-size: 17pt;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+
+    .module-subtitle {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #0284c7;
+      margin-top: 3px;
+    }
+
+    .status-badge {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 9pt;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px 20px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      font-size: 9pt;
+    }
+
+    .meta-item {
+      display: flex;
+      gap: 6px;
+    }
+
+    .meta-label {
+      font-weight: 700;
+      color: #475569;
+      min-width: 130px;
+    }
+
+    .meta-val {
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    .section-heading {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #0f172a;
+      border-left: 4px solid #0284c7;
+      padding-left: 8px;
+      margin: 14px 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    p {
+      margin-bottom: 8px;
+      color: #334155;
+      text-align: justify;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 14px;
+      font-size: 8.5pt;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .badge-done {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 7.5pt;
+      display: inline-block;
+    }
+
+    .diagram-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .diagram-flow {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      font-size: 8pt;
+      font-weight: 600;
+    }
+
+    .node-box {
+      background: #ffffff;
+      border: 1px solid #0284c7;
+      color: #0369a1;
+      padding: 6px 8px;
+      border-radius: 6px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .node-arrow {
+      color: #94a3b8;
+      font-size: 12pt;
+      font-weight: bold;
+    }
+
+    .formula-box {
+      background: #f1f5f9;
+      border-left: 3px solid #0284c7;
+      padding: 6px 12px;
+      margin-bottom: 8px;
+      font-family: 'Consolas', monospace;
+      font-size: 8pt;
+      color: #0f172a;
+    }
+
+    .sign-section {
+      margin-top: 18px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #fafafa;
+      page-break-inside: avoid;
+    }
+
+    .sign-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .sign-line {
+      border-top: 1px dashed #64748b;
+      padding-top: 4px;
+      font-size: 8pt;
+      font-weight: 600;
+      color: #475569;
+      text-align: center;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header-container">
+    <div>
+      <h1 class="project-title">Geospatial Proximity Audio Ecosystem</h1>
+      <div class="module-subtitle">Module 01: Proximate & Live Spatial Audio Engine</div>
+    </div>
+    <div>
+      <span class="status-badge">✔ 100% MODULE COMPLETED</span>
+    </div>
+  </div>
+
+  <!-- Metadata -->
+  <div class="meta-grid">
+    <div class="meta-item">
+      <span class="meta-label">Student Name:</span>
+      <span class="meta-val">Aman Dwivedi</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Git Branch:</span>
+      <span class="meta-val">aman--feature</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Repository:</span>
+      <span class="meta-val">amandubey0907/My-first-site-</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Review Status:</span>
+      <span class="meta-val">Ready for Faculty / Guide Evaluation</span>
+    </div>
+  </div>
+
+  <!-- Objective -->
+  <div class="section-heading">1. Executive Summary & Core Objectives</div>
+  <p>
+    This module implements a real-time, browser-native <strong>Spatial Proximity Sound Engine</strong>. It simulates real-world acoustics where sound volume dynamically attenuates with distance according to acoustic decay laws, stereo pans between ears based on relative user angle, and automatically cuts off at boundary distances to save bandwidth and compute resources.
+  </p>
+
+  <!-- Tasks Table -->
+  <div class="section-heading">2. Detailed Progress Breakdown & Verification</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 10%;">Task ID</th>
+        <th style="width: 32%;">Component / Deliverable</th>
+        <th style="width: 16%;">File / Architecture</th>
+        <th style="width: 12%;">Status</th>
+        <th style="width: 30%;">Verification & Proof</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>T-01</strong></td>
+        <td><strong>Euclidean & Haversine Distance</strong></td>
+        <td><code>proximityEngine.js</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>Earth radius formula (R = 6,371 km) & 2D coordinates.</td>
+      </tr>
+      <tr>
+        <td><strong>T-02</strong></td>
+        <td><strong>3 Acoustic Decay Curves</strong></td>
+        <td><code>proximityEngine.js</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>Inverse (1/r), Linear & Exponential with rolloff factor.</td>
+      </tr>
+      <tr>
+        <td><strong>T-03</strong></td>
+        <td><strong>Dynamic Stereo Panning</strong></td>
+        <td><code>proximityEngine.js</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>Normalized bearing factor (-1.0 Left to +1.0 Right).</td>
+      </tr>
+      <tr>
+        <td><strong>T-04</strong></td>
+        <td><strong>Web Audio API DSP Graph</strong></td>
+        <td><code>audioEngine.js</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>Gain & Panner nodes chained to Master and Destination.</td>
+      </tr>
+      <tr>
+        <td><strong>T-05</strong></td>
+        <td><strong>Harmonic Synthesizer Beacon</strong></td>
+        <td><code>audioEngine.js</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>Dual oscillators (220Hz, 330Hz, 440Hz) for instant testing.</td>
+      </tr>
+      <tr>
+        <td><strong>T-06</strong></td>
+        <td><strong>Live Microphone Stream Engine</strong></td>
+        <td><code>audioEngine.js</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>WebRTC getUserMedia with echo & noise suppression.</td>
+      </tr>
+      <tr>
+        <td><strong>T-07</strong></td>
+        <td><strong>Live FFT Spectrum Visualizer</strong></td>
+        <td><code>audioEngine.js</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>64-bin FFT canvas animation with linear gradient styling.</td>
+      </tr>
+      <tr>
+        <td><strong>T-08</strong></td>
+        <td><strong>2D Radar Viewport & HUD</strong></td>
+        <td><code>app.js</code> / <code>index.html</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>60 FPS canvas loop with live Distance, Gain % & Pan display.</td>
+      </tr>
+      <tr>
+        <td><strong>T-09</strong></td>
+        <td><strong>Keyboard WASD & Drag Controls</strong></td>
+        <td><code>app.js</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>Smooth multi-key WASD / Arrow keys with Shift sprint boost.</td>
+      </tr>
+      <tr>
+        <td><strong>T-10</strong></td>
+        <td><strong>Interactive Presentation Presets</strong></td>
+        <td><code>app.js</code> / <code>index.html</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>Core (100%), Mid Decay, Cutoff (0%), Left/Right Ear gliding.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Audio Pipeline Diagram -->
+  <div class="section-heading">3. Web Audio API Signal Flow Graph</div>
+  <div class="diagram-box">
+    <div class="diagram-flow">
+      <div class="node-box">Source<br><small>(Synth / Mic)</small></div>
+      <div class="node-arrow">➔</div>
+      <div class="node-box">Proximity Gain<br><small>(Distance Attenuation)</small></div>
+      <div class="node-arrow">➔</div>
+      <div class="node-box">Stereo Panner<br><small>(-1.0L to +1.0R)</small></div>
+      <div class="node-arrow">➔</div>
+      <div class="node-box">Master Gain<br><small>(Volume Slider)</small></div>
+      <div class="node-arrow">➔</div>
+      <div class="node-box">FFT Analyser<br><small>(Live Visualizer)</small></div>
+      <div class="node-arrow">➔</div>
+      <div class="node-box" style="border-color:#16a34a; color:#15803d;">Speakers<br><small>(Destination)</small></div>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- Mathematical Formulations -->
+  <div class="section-heading">4. Mathematical Acoustic Formulations</div>
+  <div class="formula-box">
+    <strong>1. Haversine Distance (GPS Spherical Geometry):</strong><br>
+    a = sin²(Δlat / 2) + cos(lat1) · cos(lat2) · sin²(Δlon / 2)<br>
+    d = 2 · R · atan2(√a, √(1 - a)) &nbsp;&nbsp;[where R = 6,371,000 meters]
+  </div>
+  <div class="formula-box">
+    <strong>2. Inverse Distance Attenuation Curve:</strong><br>
+    Gain(d) = d_ref / (d_ref + rolloff · (d - d_ref))<br>
+    Boundary Conditions: If d &le; d_ref &rarr; Gain = 1.0 (Core 100%) | If d &ge; d_max &rarr; Gain = 0.0 (Silent Cutoff)
+  </div>
+  <div class="formula-box">
+    <strong>3. Normalized Stereo Panning Bearing:</strong><br>
+    Pan_factor = clamp((beacon_x - listener_x) / max(0.1, distance), -1.0, +1.0)
+  </div>
+
+  <!-- Git Version History -->
+  <div class="section-heading">5. Git Commit Audit Trail (Branch: aman--feature)</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 14%;">Commit Hash</th>
+        <th style="width: 56%;">Commit Message</th>
+        <th style="width: 15%;">Branch</th>
+        <th style="width: 15%;">Remote Sync</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>fceaaa6</code></td>
+        <td>chore: update author name to Aman Dwivedi across UI, radar canvas and project documentation</td>
+        <td><code>aman--feature</code></td>
+        <td><span class="badge-done">SYNCED</span></td>
+      </tr>
+      <tr>
+        <td><code>3d5280b</code></td>
+        <td>docs: add formal project progress sheet and guide evaluation rubric</td>
+        <td><code>aman--feature</code></td>
+        <td><span class="badge-done">SYNCED</span></td>
+      </tr>
+      <tr>
+        <td><code>9fcc14f</code></td>
+        <td>feat(presentation): add interactive demo presets and smooth glide animation for live presentations</td>
+        <td><code>aman--feature</code></td>
+        <td><span class="badge-done">SYNCED</span></td>
+      </tr>
+      <tr>
+        <td><code>492c697</code></td>
+        <td>feat(navigation): add keyboard WASD and arrow controls for radar navigation</td>
+        <td><code>aman--feature</code></td>
+        <td><span class="badge-done">SYNCED</span></td>
+      </tr>
+      <tr>
+        <td><code>4308950</code></td>
+        <td>feat(audio): complete geospatial proximity audio and live spatial sound engine</td>
+        <td><code>aman--feature</code></td>
+        <td><span class="badge-done">SYNCED</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Guide Evaluation & Sign-off Form -->
+  <div class="sign-section">
+    <div style="font-weight: 700; font-size: 10pt; color: #0f172a; margin-bottom: 8px;">
+      6. Guide / Faculty Milestone Evaluation Form
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Criterion</th>
+          <th style="width: 18%;">Max Marks</th>
+          <th style="width: 20%;">Marks Awarded</th>
+          <th style="width: 32%;">Guide Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mathematical Distance & Attenuation Logic</td>
+          <td>20</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Web Audio API Implementation & Stereo Panning</td>
+          <td>20</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Interactive Radar Canvas & Visualizer Feedback</td>
+          <td>20</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Live Microphone Stream & Real-World Utility</td>
+          <td>20</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Code Quality, Documentation & Git Versioning</td>
+          <td>20</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Total Score</strong></td>
+          <td><strong>100</strong></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sign-grid">
+      <div class="sign-line">Student Signature<br>(Aman Dwivedi)</div>
+      <div class="sign-line">Project Guide Signature<br>(Faculty Evaluator)</div>
+      <div class="sign-line">Date of Review<br>(DD / MM / YYYY)</div>
+    </div>
+  </div>
+
+</body>
+</html>
