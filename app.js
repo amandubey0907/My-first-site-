@@ -255,6 +255,55 @@ document.addEventListener("DOMContentLoaded", () => {
     listener.isDragging = false;
   });
 
+  // Keyboard navigation & accessibility controls (WASD / Arrows / Mute / Space)
+  window.addEventListener("keydown", (e) => {
+    if (["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement?.tagName)) return;
+
+    const step = e.shiftKey ? 24 : 10;
+    let handled = false;
+
+    switch (e.key) {
+      case "ArrowUp":
+      case "w":
+      case "W":
+        listener.y = Math.max(20, listener.y - step);
+        handled = true;
+        break;
+      case "ArrowDown":
+      case "s":
+      case "S":
+        listener.y = Math.min(canvas.height - 20, listener.y + step);
+        handled = true;
+        break;
+      case "ArrowLeft":
+      case "a":
+      case "A":
+        listener.x = Math.max(20, listener.x - step);
+        handled = true;
+        break;
+      case "ArrowRight":
+      case "d":
+      case "D":
+        listener.x = Math.min(canvas.width - 20, listener.x + step);
+        handled = true;
+        break;
+      case "m":
+      case "M":
+        btnMute.click();
+        handled = true;
+        break;
+      case " ":
+        btnToggleAudio.click();
+        handled = true;
+        break;
+    }
+
+    if (handled) {
+      e.preventDefault();
+    }
+  });
+
+
   // -------------------------------------------------------------------------
   // 4. Main Animation & Proximity Loop
   // -------------------------------------------------------------------------
