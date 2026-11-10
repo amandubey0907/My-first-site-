@@ -218,6 +218,15 @@ class AudioEngine {
       this.analyserNode.getByteFrequencyData(dataArray);
     }
   }
+
+  /**
+   * Returns current AudioContext state string
+   * @returns {string} 'uninitialized' | 'running' | 'suspended' | 'closed'
+   */
+  getAudioContextState() {
+    if (!this.isInitialized || !this.audioCtx) return 'uninitialized';
+    return this.audioCtx.state;
+  }
 }
 
 // Export for module/browser
