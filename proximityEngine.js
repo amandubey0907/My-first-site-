@@ -77,6 +77,19 @@ class ProximityEngine {
   }
 
   /**
+   * Returns a named proximity zone string based on distance
+   * @param {number} distance
+   * @param {number} refDistance
+   * @param {number} maxDistance
+   * @returns {string} 'core' | 'rolloff' | 'silent'
+   */
+  getProximityZone(distance, refDistance, maxDistance) {
+    if (distance <= refDistance) return 'core';
+    if (distance < maxDistance) return 'rolloff';
+    return 'silent';
+  }
+
+  /**
    * Calculate Gain (Volume Attenuation: 0.0 to 1.0) based on proximity
    * @param {number} distance - Current distance from listener to source (meters)
    * @param {number} refDistance - Minimum radius with 100% volume (meters)
