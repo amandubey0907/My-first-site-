@@ -296,6 +296,11 @@ document.addEventListener("DOMContentLoaded", () => {
         btnToggleAudio.click();
         handled = true;
         break;
+      case '?':
+        const tip = document.getElementById('keyboardHelpTooltip');
+        if (tip) tip.classList.toggle('visible');
+        handled = true;
+        break;
     }
 
     if (handled) {
