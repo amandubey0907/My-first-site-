@@ -190,6 +190,10 @@ class AudioEngine {
   updateSpatialParameters(gain, pan) {
     if (!this.isInitialized || !this.proximityGainNode) return;
 
+    if (this.audioCtx.state === 'suspended') {
+      this.audioCtx.resume();
+    }
+
     const now = this.audioCtx.currentTime;
     // Smooth transition to prevent audio popping / clipping
     this.proximityGainNode.gain.cancelScheduledValues(now);
