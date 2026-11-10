@@ -84,6 +84,10 @@ class ProximityEngine {
    * @returns {number} normalized gain [0.0 - 1.0]
    */
   calculateProximityGain(distance, refDistance = 5, maxDistance = 60) {
+    // Guard: ensure distance is non-negative
+    distance = Math.max(0, distance);
+    // Guard: ensure refDistance < maxDistance
+    if (refDistance >= maxDistance) return 1.0;
     // If inside the minimum reference distance, full volume
     if (distance <= refDistance) {
       return 1.0;
