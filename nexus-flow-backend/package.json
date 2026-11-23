@@ -1,0 +1,27 @@
+{
+  "name": "nexus-flow-backend",
+  "version": "1.0.0",
+  "description": "Nexus Flow — MongoDB Time-Series Telemetry Ingestion Backend for Geospatial Proximity Audio Ecosystem",
+  "main": "src/app.js",
+  "author": "Aman Dwivedi",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "seed": "node src/utils/seed.js",
+    "test": "node src/utils/testConnection.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
