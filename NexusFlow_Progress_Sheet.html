@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nexus Flow — Progress Sheet | Aman Dwivedi</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e2d45;
+    --cyan: #06b6d4;
+    --green: #10b981;
+    --purple: #a855f7;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --text: #f1f5f9;
+    --muted: #64748b;
+    --subtle: #94a3b8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 48px 24px 36px;
+    background: linear-gradient(135deg, #0d1a2f 0%, #111827 60%, #0d1a2f 100%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(6,182,212,0.12), transparent 70%);
+    pointer-events: none;
+  }
+  .badge-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+  .badge {
+    padding: 4px 14px; border-radius: 999px; font-size: 11px;
+    font-weight: 600; letter-spacing: .5px; text-transform: uppercase;
+  }
+  .badge-cyan  { background: rgba(6,182,212,.15);  color: var(--cyan);   border: 1px solid rgba(6,182,212,.3);  }
+  .badge-green { background: rgba(16,185,129,.15); color: var(--green);  border: 1px solid rgba(16,185,129,.3); }
+  .badge-purple{ background: rgba(168,85,247,.15); color: var(--purple); border: 1px solid rgba(168,85,247,.3); }
+  .badge-amber { background: rgba(245,158,11,.15); color: var(--amber);  border: 1px solid rgba(245,158,11,.3); }
+
+  .header h1 {
+    font-size: clamp(22px, 5vw, 38px);
+    font-weight: 800;
+    background: linear-gradient(135deg, #38bdf8 0%, #06b6d4 40%, #a855f7 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 8px; line-height: 1.2;
+  }
+  .header .subtitle { color: var(--subtle); font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .header .author   { color: var(--cyan);  font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+
+  .meta-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px; margin-top: 24px; text-align: left;
+  }
+  .meta-card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px;
+  }
+  .meta-card .label { font-size: 10px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin-bottom: 4px; }
+  .meta-card .value { font-size: 13px; font-weight: 600; color: var(--text); word-break: break-all; }
+  .meta-card .value.mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--cyan); }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 28px; }
+  .section-title {
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--cyan); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .phase-list { display: flex; flex-direction: column; gap: 10px; }
+  .phase-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 18px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .phase-icon { font-size: 20px; flex-shrink: 0; }
+  .phase-info { flex: 1; }
+  .phase-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .phase-bar-wrap { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
+  .phase-bar { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--cyan), var(--purple)); }
+  .phase-pct { font-size: 13px; font-weight: 700; color: var(--green); flex-shrink: 0; }
+
+  /* ── FILE GRID ── */
+  .file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+  .file-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .file-num {
+    width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+    background: rgba(6,182,212,.12); color: var(--cyan);
+    font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+  .file-info { flex: 1; min-width: 0; }
+  .file-path { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--cyan); margin-bottom: 2px; word-break: break-all; }
+  .file-desc { font-size: 11px; color: var(--subtle); line-height: 1.4; }
+  .check { width: 18px; height: 18px; background: rgba(16,185,129,.15); border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; color: var(--green); font-size: 10px; }
+
+  /* ── TASK TABLE ── */
+  .task-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .task-table th {
+    background: var(--surface2); color: var(--muted);
+    padding: 10px 14px; text-align: left;
+    font-size: 10px; text-transform: uppercase; letter-spacing: .8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .task-table td {
+    padding: 11px 14px; border-bottom: 1px solid rgba(30,45,69,.5);
+    vertical-align: top;
+  }
+  .task-table tr:hover td { background: rgba(255,255,255,.02); }
+  .task-id { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--cyan); font-weight: 600; }
+  .task-name { font-weight: 600; color: var(--text); }
+  .task-detail { color: var(--subtle); font-size: 11px; margin-top: 2px; line-height: 1.4; }
+  .pill {
+    display: inline-flex; align-items: center; padding: 2px 10px;
+    border-radius: 999px; font-size: 10px; font-weight: 700; white-space: nowrap;
+  }
+  .pill-green  { background: rgba(16,185,129,.15); color: var(--green); border: 1px solid rgba(16,185,129,.25); }
+  .pill-cyan   { background: rgba(6,182,212,.15);  color: var(--cyan);  border: 1px solid rgba(6,182,212,.25);  }
+  .pill-amber  { background: rgba(245,158,11,.15); color: var(--amber); border: 1px solid rgba(245,158,11,.25); }
+  .prog-wrap { width: 80px; height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; }
+  .prog-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--cyan)); border-radius: 999px; }
+
+  /* ── API TABLE ── */
+  .api-group { margin-bottom: 18px; }
+  .api-group-title {
+    font-size: 11px; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .8px;
+    padding: 6px 0; margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .api-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-radius: 8px;
+    border: 1px solid var(--border); margin-bottom: 6px;
+    background: var(--surface);
+  }
+  .method {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 4px; flex-shrink: 0; min-width: 46px; text-align: center;
+  }
+  .m-get    { background: rgba(16,185,129,.15); color: var(--green); }
+  .m-post   { background: rgba(6,182,212,.15);  color: var(--cyan);  }
+  .m-patch  { background: rgba(245,158,11,.15); color: var(--amber); }
+  .m-put    { background: rgba(168,85,247,.15); color: var(--purple); }
+  .m-delete { background: rgba(239,68,68,.15);  color: var(--red);   }
+  .endpoint { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--cyan); flex: 1; }
+  .api-desc { font-size: 11px; color: var(--subtle); flex-shrink: 0; }
+
+  /* ── COMMIT CARDS ── */
+  .commit-list { display: flex; flex-direction: column; gap: 8px; }
+  .commit-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .commit-hash {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    background: rgba(6,182,212,.1); color: var(--cyan);
+    padding: 3px 8px; border-radius: 6px; flex-shrink: 0;
+  }
+  .commit-info { flex: 1; min-width: 0; }
+  .commit-msg { font-size: 12.5px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .commit-meta { font-size: 11px; color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; }
+  .commit-branch {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    background: rgba(168,85,247,.12); color: var(--purple);
+    padding: 1px 7px; border-radius: 4px;
+  }
+
+  /* ── BEACON TABLE ── */
+  .beacon-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .beacon-card {
+    background: var(--surface); border-radius: 12px; padding: 16px;
+    border: 1px solid var(--border); position: relative; overflow: hidden;
+  }
+  .beacon-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .bc0::before { background: linear-gradient(90deg, #06b6d4, #0891b2); }
+  .bc1::before { background: linear-gradient(90deg, #10b981, #059669); }
+  .bc2::before { background: linear-gradient(90deg, #a855f7, #9333ea); }
+  .beacon-id { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 4px; }
+  .beacon-name { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+  .beacon-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11px; }
+  .beacon-row .k { color: var(--muted); }
+  .beacon-row .v { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+
+  /* ── INTEGRATION ── */
+  .integration-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+  .int-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+  }
+  .int-card .who { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .int-card .scope { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+  .int-card .interface { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--cyan); background: rgba(6,182,212,.07); padding: 8px 10px; border-radius: 6px; line-height: 1.6; }
+
+  /* ── EVAL TABLE ── */
+  .eval-table { width: 100%; border-collapse: collapse; }
+  .eval-table th {
+    background: var(--surface2); color: var(--muted); padding: 11px 16px;
+    text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eval-table td { padding: 13px 16px; border-bottom: 1px solid rgba(30,45,69,.5); font-size: 13px; }
+  .eval-table td:nth-child(2) { text-align: center; font-weight: 700; color: var(--cyan); }
+  .eval-table td:nth-child(3) { text-align: center; }
+  .eval-mark { width: 60px; height: 32px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface2); text-align: center; }
+  .eval-total td { font-weight: 800; font-size: 14px; color: var(--cyan); }
+  .sign-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 20px; }
+  .sign-box { border-top: 1px dashed var(--border); padding-top: 10px; }
+  .sign-box .slabel { font-size: 10px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin-bottom: 24px; }
+
+  /* ── STAT CARDS ── */
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 14px; text-align: center;
+  }
+  .stat-num { font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+  .c-cyan   { color: var(--cyan); }
+  .c-green  { color: var(--green); }
+  .c-purple { color: var(--purple); }
+  .c-amber  { color: var(--amber); }
+
+  /* ── WRAPPER ── */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 20px 24px; overflow-x: auto;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center; padding: 24px;
+    color: var(--muted); font-size: 11px; margin-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #fff; color: #000; }
+    .card, .header, .file-card, .beacon-card, .commit-card,
+    .int-card, .phase-item, .api-row, .stat-card {
+      border: 1px solid #ddd !important; background: #f9f9f9 !important;
+    }
+    .header h1 { -webkit-text-fill-color: #0369a1; }
+  }
+
+  @media (max-width: 600px) {
+    .api-desc { display: none; }
+    .api-row { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HEADER ══════════════════════ -->
+<div class="header">
+  <div class="badge-row">
+    <span class="badge badge-cyan">Node.js v25</span>
+    <span class="badge badge-green">MongoDB Time Series</span>
+    <span class="badge badge-purple">Mongoose 8</span>
+    <span class="badge badge-amber">Express 4</span>
+  </div>
+  <h1>📊 Nexus Flow — Progress Sheet</h1>
+  <div class="subtitle">Geospatial Proximity Audio Ecosystem</div>
+  <div class="subtitle">Module: MongoDB Time-Series Telemetry Ingestion Backend</div>
+  <div class="author">👤 Aman Dwivedi</div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">Project</div>
+      <div class="value">Geospatial Proximity Audio Ecosystem — Nexus Flow</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">My Module</div>
+      <div class="value">Module 02: DB + Telemetry Ingestion Backend</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">GitHub Repository</div>
+      <div class="value mono">github.com/amandubey0907/My-first-site-</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Branches</div>
+      <div class="value mono">aman--feature · nexus-flow-db</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Local Path (Work 2)</div>
+      <div class="value mono">Desktop\project work 2\nexus-flow-backend</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Review Date</div>
+      <div class="value">November 23, 2026</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Completion Status</div>
+      <div class="value" style="color:#10b981;font-size:16px;">✅ 100% Complete</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">GitHub Push</div>
+      <div class="value" style="color:#10b981;">✅ Both branches pushed</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ STAT CARDS ══════════════════════ -->
+<div class="stat-row">
+  <div class="stat-card"><div class="stat-num c-cyan">21</div><div class="stat-label">Source Files</div></div>
+  <div class="stat-card"><div class="stat-num c-green">17</div><div class="stat-label">Tasks Done</div></div>
+  <div class="stat-card"><div class="stat-num c-purple">16</div><div class="stat-label">API Endpoints</div></div>
+  <div class="stat-card"><div class="stat-num c-amber">3</div><div class="stat-label">Mongoose Models</div></div>
+  <div class="stat-card"><div class="stat-num c-cyan">7</div><div class="stat-label">Git Commits</div></div>
+  <div class="stat-card"><div class="stat-num c-green">123</div><div class="stat-label">npm Packages</div></div>
+  <div class="stat-card"><div class="stat-num c-purple">3</div><div class="stat-label">Beacons Seeded</div></div>
+  <div class="stat-card"><div class="stat-num" style="color:#f59e0b;">100%</div><div class="stat-label">Complete</div></div>
+</div>
+
+<!-- ══════════════════════ PHASES ══════════════════════ -->
+<div class="section">
+  <div class="section-title">🗓️ Project Phases</div>
+  <div class="phase-list">
+    <div class="phase-item">
+      <div class="phase-icon">🎧</div>
+      <div class="phase-info">
+        <div class="phase-name">Phase 1 — Proximity Audio UI (Module 1)</div>
+        <div class="phase-bar-wrap"><div class="phase-bar" style="width:100%"></div></div>
+      </div>
+      <div class="phase-pct">100%</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-icon">🗄️</div>
+      <div class="phase-info">
+        <div class="phase-name">Phase 2 — MongoDB Models (TelemetryEvent, AudioSession, BeaconNode)</div>
+        <div class="phase-bar-wrap"><div class="phase-bar" style="width:100%"></div></div>
+      </div>
+      <div class="phase-pct">100%</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-icon">🌐</div>
+      <div class="phase-info">
+        <div class="phase-name">Phase 3 — REST API Routes, Controllers & Middleware</div>
+        <div class="phase-bar-wrap"><div class="phase-bar" style="width:100%"></div></div>
+      </div>
+      <div class="phase-pct">100%</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-icon">📊</div>
+      <div class="phase-info">
+        <div class="phase-name">Phase 4 — Aggregation Pipelines & Analytics (Timeline, Zone Split, Peak Gain)</div>
+        <div class="phase-bar-wrap"><div class="phase-bar" style="width:100%"></div></div>
+      </div>
+      <div class="phase-pct">100%</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-icon">🐙</div>
+      <div class="phase-info">
+        <div class="phase-name">Phase 5 — GitHub Push, project work 2 save & Team Integration Guide</div>
+        <div class="phase-bar-wrap"><div class="phase-bar" style="width:100%"></div></div>
+      </div>
+      <div class="phase-pct">100%</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ FILE INVENTORY ══════════════════════ -->
+<div class="section">
+  <div class="section-title">📁 Complete File Inventory — 21 Source Files</div>
+  <div class="card">
+    <div class="file-grid">
+      <div class="file-card"><div class="file-num">1</div><div class="file-info"><div class="file-path">src/app.js</div><div class="file-desc">Express server entry, all routes, graceful shutdown</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">2</div><div class="file-info"><div class="file-path">src/config/db.js</div><div class="file-desc">MongoDB connection + Time Series collection auto-creation</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">3</div><div class="file-info"><div class="file-path">src/models/TelemetryEvent.js</div><div class="file-desc">⏱️ Core Time Series Mongoose model</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">4</div><div class="file-info"><div class="file-path">src/models/AudioSession.js</div><div class="file-desc">🎧 Session lifecycle + summary stats model</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">5</div><div class="file-info"><div class="file-path">src/models/BeaconNode.js</div><div class="file-desc">📡 Beacon/transmitter registry model</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">6</div><div class="file-info"><div class="file-path">src/routes/telemetry.js</div><div class="file-desc">POST/GET telemetry route definitions</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">7</div><div class="file-info"><div class="file-path">src/routes/sessions.js</div><div class="file-desc">POST/GET/PATCH session route definitions</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">8</div><div class="file-info"><div class="file-path">src/routes/beacons.js</div><div class="file-desc">Full CRUD beacon route definitions</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">9</div><div class="file-info"><div class="file-path">src/controllers/telemetryController.js</div><div class="file-desc">6 HTTP handlers for telemetry endpoints</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">10</div><div class="file-info"><div class="file-path">src/controllers/sessionController.js</div><div class="file-desc">5 HTTP handlers for session lifecycle</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">11</div><div class="file-info"><div class="file-path">src/controllers/beaconController.js</div><div class="file-desc">5 HTTP handlers for beacon CRUD</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">12</div><div class="file-info"><div class="file-path">src/services/telemetryService.js</div><div class="file-desc">Core ingest logic + aggregation pipelines</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">13</div><div class="file-info"><div class="file-path">src/middleware/validate.js</div><div class="file-desc">Request validation, no external library needed</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">14</div><div class="file-info"><div class="file-path">src/middleware/errorHandler.js</div><div class="file-desc">Global Express error handler</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">15</div><div class="file-info"><div class="file-path">src/utils/seed.js</div><div class="file-desc">DB seed script — 3 default beacons</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">16</div><div class="file-info"><div class="file-path">src/utils/testConnection.js</div><div class="file-desc">MongoDB connection health test</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">17</div><div class="file-info"><div class="file-path">package.json</div><div class="file-desc">Project manifest, scripts, dependencies</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">18</div><div class="file-info"><div class="file-path">package-lock.json</div><div class="file-desc">Locked dependency tree (123 packages)</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">19</div><div class="file-info"><div class="file-path">.env</div><div class="file-desc">Local environment config (MongoDB URI, PORT)</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">20</div><div class="file-info"><div class="file-path">.env.example</div><div class="file-desc">Config template for other team members</div></div><div class="check">✓</div></div>
+      <div class="file-card"><div class="file-num">21</div><div class="file-info"><div class="file-path">README.md</div><div class="file-desc">Full API reference + team integration guide</div></div><div class="check">✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ TASK TABLE ══════════════════════ -->
+<div class="section">
+  <div class="section-title">✅ Task-by-Task Completion — 17 / 17 Done</div>
+  <div class="card">
+    <table class="task-table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Deliverable</th>
+          <th>Details</th>
+          <th>Status</th>
+          <th>Progress</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="task-id">T-01</td>
+          <td><div class="task-name">MongoDB Time Series Collection</div></td>
+          <td><div class="task-detail">timeField: timestamp, metaField: meta, granularity: seconds, TTL 7 days auto-expiry</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-02</td>
+          <td><div class="task-name">TelemetryEvent Mongoose Model</div></td>
+          <td><div class="task-detail">3 sub-schemas: Position, Measurements, Meta. Tracks gain, pan, distance, zone, FFT snapshot, lat/lon</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-03</td>
+          <td><div class="task-name">AudioSession Model</div></td>
+          <td><div class="task-detail">Lifecycle: active→closed, config snapshot, computed stats (avgGain, zoneSplit %, peakGain, durationSeconds)</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-04</td>
+          <td><div class="task-name">BeaconNode Model</div></td>
+          <td><div class="task-detail">Persistent registry mirroring app.js audioNodes[]. Has lat/lon fields for GPS team integration</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-05</td>
+          <td><div class="task-name">Single Event Ingest API</div></td>
+          <td><div class="task-detail">POST /api/telemetry — full field validation, 422 on bad data, 201 on success</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-06</td>
+          <td><div class="task-name">Bulk Batch Ingest API</div></td>
+          <td><div class="task-detail">POST /api/telemetry/batch — up to 500 events, insertMany with ordered:false</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-07</td>
+          <td><div class="task-name">Telemetry Query API</div></td>
+          <td><div class="task-detail">GET /api/telemetry — filters by sessionId, listenerId, beaconId, from/to date, limit/skip</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-08</td>
+          <td><div class="task-name">Time-Bucketed Timeline</div></td>
+          <td><div class="task-detail">GET /api/telemetry/timeline — $group aggregation by second/minute/hour with avgGain, avgDistance</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-09</td>
+          <td><div class="task-name">Zone Distribution Analytics</div></td>
+          <td><div class="task-detail">GET /api/telemetry/zone-distribution — % time in core / rolloff / silent zones per session</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-10</td>
+          <td><div class="task-name">Peak Gain Event</div></td>
+          <td><div class="task-detail">GET /api/telemetry/peak — finds the exact moment listener was closest (highest gain) to beacon</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-11</td>
+          <td><div class="task-name">Session Lifecycle Management</div></td>
+          <td><div class="task-detail">Open → Active → Close. PATCH close triggers analytics summary computation automatically</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-12</td>
+          <td><div class="task-name">BeaconNode CRUD API</div></td>
+          <td><div class="task-detail">Full Create / Read / Update / Delete for beacon registry via REST</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-13</td>
+          <td><div class="task-name">Request Validation Middleware</div></td>
+          <td><div class="task-detail">Required field checks + range guards (gain 0–1, pan -1–+1, zone enum) — no external library</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-14</td>
+          <td><div class="task-name">Global Error Handler</div></td>
+          <td><div class="task-detail">Handles Mongoose ValidationError, duplicate key (11000), CastError, and generic 500 errors</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-15</td>
+          <td><div class="task-name">DB Seed Script</div></td>
+          <td><div class="task-detail">npm run seed — populates 3 default beacons matching app.js audioNodes[]</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-16</td>
+          <td><div class="task-name">GitHub Push — 2 Branches</div></td>
+          <td><div class="task-detail">aman--feature (commit 6250fb1) + nexus-flow-db (commit 8b46291) — both live on GitHub</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="task-id">T-17</td>
+          <td><div class="task-name">Team Integration Guide</div></td>
+          <td><div class="task-detail">API contracts documented for GPS member, WebSocket member, and User Management member</div></td>
+          <td><span class="pill pill-green">✅ Done</span></td>
+          <td><div class="prog-wrap"><div class="prog-fill" style="width:100%"></div></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════ API REFERENCE ══════════════════════ -->
+<div class="section">
+  <div class="section-title">🌐 Full API Reference — 16 Endpoints</div>
+  <div class="card">
+    <div class="api-group">
+      <div class="api-group-title">🩺 Health</div>
+      <div class="api-row"><span class="method m-get">GET</span><span class="endpoint">/api/health</span><span class="api-desc">Server + DB health check</span></div>
+    </div>
+    <div class="api-group">
+      <div class="api-group-title">📊 Telemetry</div>
+      <div class="api-row"><span class="method m-post">POST</span><span class="endpoint">/api/telemetry</span><span class="api-desc">Ingest 1 proximity event</span></div>
+      <div class="api-row"><span class="method m-post">POST</span><span class="endpoint">/api/telemetry/batch</span><span class="api-desc">Bulk ingest (≤500 events)</span></div>
+      <div class="api-row"><span class="method m-get">GET</span><span class="endpoint">/api/telemetry</span><span class="api-desc">Query with filters</span></div>
+      <div class="api-row"><span class="method m-get">GET</span><span class="endpoint">/api/telemetry/timeline</span><span class="api-desc">Time-bucketed chart data</span></div>
+      <div class="api-row"><span class="method m-get">GET</span><span class="endpoint">/api/telemetry/zone-distribution</span><span class="api-desc">Zone time split %</span></div>
+      <div class="api-row"><span class="method m-get">GET</span><span class="endpoint">/api/telemetry/peak</span><span class="api-desc">Peak gain event</span></div>
+    </div>
+    <div class="api-group">
+      <div class="api-group-title">🎧 Sessions</div>
+      <div class="api-row"><span class="method m-post">POST</span><span class="endpoint">/api/sessions</span><span class="api-desc">Open session → sessionId</span></div>
+      <div class="api-row"><span class="method m-get">GET</span><span class="endpoint">/api/sessions</span><span class="api-desc">List sessions</span></div>
+      <div class="api-row"><span class="method m-get">GET</span><span class="endpoint">/api/sessions/:id</span><span class="api-desc">Get one session</span></div>
+      <div class="api-row"><span class="method m-patch">PATCH</span><span class="endpoint">/api/sessions/:id/close</span><span class="api-desc">Close + compute summary</span></div>
+      <div class="api-row"><span class="method m-get">GET</span><span class="endpoint">/api/sessions/:id/summary</span><span class="api-desc">Recompute analytics</span></div>
+    </div>
+    <div class="api-group">
+      <div class="api-group-title">📡 Beacons</div>
+      <div class="api-row"><span class="method m-get">GET</span><span class="endpoint">/api/beacons</span><span class="api-desc">List all beacons</span></div>
+      <div class="api-row"><span class="method m-get">GET</span><span class="endpoint">/api/beacons/:id</span><span class="api-desc">Get single beacon</span></div>
+      <div class="api-row"><span class="method m-post">POST</span><span class="endpoint">/api/beacons</span><span class="api-desc">Register new beacon</span></div>
+      <div class="api-row"><span class="method m-put">PUT</span><span class="endpoint">/api/beacons/:id</span><span class="api-desc">Update beacon config</span></div>
+      <div class="api-row"><span class="method m-delete">DELETE</span><span class="endpoint">/api/beacons/:id</span><span class="api-desc">Remove beacon</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ BEACONS ══════════════════════ -->
+<div class="section">
+  <div class="section-title">📡 Seeded Beacon Registry</div>
+  <div class="beacon-cards">
+    <div class="beacon-card bc0">
+      <div class="beacon-id">Beacon ID: 0</div>
+      <div class="beacon-name" style="color:#06b6d4">🔵 Main Stage Beacon</div>
+      <div class="beacon-row"><span class="k">Position</span><span class="v" style="color:#06b6d4">(400, 200)</span></div>
+      <div class="beacon-row"><span class="k">Frequency</span><span class="v">220 Hz (A3)</span></div>
+      <div class="beacon-row"><span class="k">Ref Distance</span><span class="v">40 m</span></div>
+      <div class="beacon-row"><span class="k">Max Distance</span><span class="v">240 m</span></div>
+    </div>
+    <div class="beacon-card bc1">
+      <div class="beacon-id">Beacon ID: 1</div>
+      <div class="beacon-name" style="color:#10b981">🟢 Voice Channel Alpha</div>
+      <div class="beacon-row"><span class="k">Position</span><span class="v" style="color:#10b981">(180, 360)</span></div>
+      <div class="beacon-row"><span class="k">Frequency</span><span class="v">330 Hz (E4)</span></div>
+      <div class="beacon-row"><span class="k">Ref Distance</span><span class="v">35 m</span></div>
+      <div class="beacon-row"><span class="k">Max Distance</span><span class="v">190 m</span></div>
+    </div>
+    <div class="beacon-card bc2">
+      <div class="beacon-id">Beacon ID: 2</div>
+      <div class="beacon-name" style="color:#a855f7">🟣 Ambient Zone</div>
+      <div class="beacon-row"><span class="k">Position</span><span class="v" style="color:#a855f7">(620, 380)</span></div>
+      <div class="beacon-row"><span class="k">Frequency</span><span class="v">440 Hz (A4)</span></div>
+      <div class="beacon-row"><span class="k">Ref Distance</span><span class="v">45 m</span></div>
+      <div class="beacon-row"><span class="k">Max Distance</span><span class="v">220 m</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ GIT COMMITS ══════════════════════ -->
+<div class="section">
+  <div class="section-title">🐙 Git Commit Audit Trail</div>
+  <div class="commit-list">
+    <div class="commit-card">
+      <div class="commit-hash">8b46291</div>
+      <div class="commit-info">
+        <div class="commit-msg">feat(nexus-flow): MongoDB Time-Series Telemetry Ingestion Backend v1.0.0</div>
+        <div class="commit-meta"><span>+21 files · +3,494 lines</span><span class="commit-branch">nexus-flow-db</span><span style="color:#10b981">✅ GitHub — project work 2</span></div>
+      </div>
+    </div>
+    <div class="commit-card">
+      <div class="commit-hash">6250fb1</div>
+      <div class="commit-info">
+        <div class="commit-msg">feat(nexus-flow): add MongoDB Time-Series Telemetry Ingestion backend</div>
+        <div class="commit-meta"><span>+22 files · +3,499 lines</span><span class="commit-branch">aman--feature</span><span style="color:#10b981">✅ GitHub — projectwork1</span></div>
+      </div>
+    </div>
+    <div class="commit-card">
+      <div class="commit-hash">9c5ae80</div>
+      <div class="commit-info">
+        <div class="commit-msg">feat(ui): add keyboard shortcut help tooltip toggled by '?' key</div>
+        <div class="commit-meta"><span>UI Enhancement</span><span class="commit-branch">aman--feature</span><span style="color:#10b981">✅ GitHub</span></div>
+      </div>
+    </div>
+    <div class="commit-card">
+      <div class="commit-hash">72b4546</div>
+      <div class="commit-info">
+        <div class="commit-msg">fix(audioEngine): auto-resume suspended AudioContext in updateSpatialParameters</div>
+        <div class="commit-meta"><span>Bug Fix</span><span class="commit-branch">aman--feature</span><span style="color:#10b981">✅ GitHub</span></div>
+      </div>
+    </div>
+    <div class="commit-card">
+      <div class="commit-hash">8cee1d9</div>
+      <div class="commit-info">
+        <div class="commit-msg">feat(audioEngine): add getAudioContextState() diagnostic method</div>
+        <div class="commit-meta"><span>New Feature</span><span class="commit-branch">aman--feature</span><span style="color:#10b981">✅ GitHub</span></div>
+      </div>
+    </div>
+    <div class="commit-card">
+      <div class="commit-hash">1fe5039</div>
+      <div class="commit-info">
+        <div class="commit-msg">feat(proximityEngine): add getProximityZone() named zone helper method</div>
+        <div class="commit-meta"><span>New Feature</span><span class="commit-branch">aman--feature</span><span style="color:#10b981">✅ GitHub</span></div>
+      </div>
+    </div>
+    <div class="commit-card">
+      <div class="commit-hash">aa57aa0</div>
+      <div class="commit-info">
+        <div class="commit-msg">fix(proximityEngine): add input validation guards to calculateProximityGain</div>
+        <div class="commit-meta"><span>Bug Fix</span><span class="commit-branch">aman--feature</span><span style="color:#10b981">✅ GitHub</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ TEAM INTEGRATION ══════════════════════ -->
+<div class="section">
+  <div class="section-title">🤝 Team Integration Matrix</div>
+  <div class="integration-grid">
+    <div class="int-card">
+      <div class="who">📍 GPS / Mapbox Member</div>
+      <div class="scope">Real-world coordinates integration</div>
+      <div class="interface">PUT /api/beacons/:id<br>{ "lat": 28.6139, "lon": 77.2090 }<br><br>POST /api/telemetry<br>{ "lat": userLat, "lon": userLon,<br>  "distanceMeters": haversineResult }</div>
+    </div>
+    <div class="int-card">
+      <div class="who">📡 WebSocket / WebRTC Member</div>
+      <div class="scope">Live audio stream injection</div>
+      <div class="interface">socket.on('proximity-update', data => {<br>  fetch('/api/telemetry', {<br>    method: 'POST',<br>    body: JSON.stringify({<br>      sessionId, ...data<br>    })<br>  })<br>})</div>
+    </div>
+    <div class="int-card">
+      <div class="who">👥 User Management Member</div>
+      <div class="scope">Room & participant session linking</div>
+      <div class="interface">// On user join room:<br>POST /api/sessions<br>{ "listenerId": userId,<br>  "listenerLabel": userName }<br>→ returns sessionId<br><br>// Use sessionId in all events</div>
+    </div>
+    <div class="int-card" style="border-color: rgba(16,185,129,.3);">
+      <div class="who" style="color:#10b981">✅ Aman Dwivedi (Me)</div>
+      <div class="scope">DB + Telemetry Ingestion Backend</div>
+      <div class="interface">npm run seed   # seed beacons<br>npm run dev    # start :4000<br>npm test       # connection check<br><br>GET /api/health → { status: "ok" }</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ EVAL TABLE ══════════════════════ -->
+<div class="section">
+  <div class="section-title">📝 Guide Evaluation & Sign-off Form</div>
+  <div class="card">
+    <table class="eval-table">
+      <thead>
+        <tr>
+          <th>Evaluation Criterion</th>
+          <th>Max Marks</th>
+          <th>Marks Awarded</th>
+          <th>Remarks / Feedback</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>MongoDB Time Series Design & Schema Quality</td>
+          <td>20</td>
+          <td><input class="eval-mark" type="number" min="0" max="20" placeholder="—"></td>
+          <td style="color:#64748b;font-size:11px;">Time Series collection, TTL, metaField, granularity</td>
+        </tr>
+        <tr>
+          <td>REST API Completeness (Telemetry, Sessions, Beacons)</td>
+          <td>20</td>
+          <td><input class="eval-mark" type="number" min="0" max="20" placeholder="—"></td>
+          <td style="color:#64748b;font-size:11px;">16 endpoints, CRUD, bulk ingest, health check</td>
+        </tr>
+        <tr>
+          <td>Aggregation Pipelines & Analytics</td>
+          <td>20</td>
+          <td><input class="eval-mark" type="number" min="0" max="20" placeholder="—"></td>
+          <td style="color:#64748b;font-size:11px;">Timeline, Zone Distribution, Peak Gain, Session Summary</td>
+        </tr>
+        <tr>
+          <td>Code Quality, Middleware & Error Handling</td>
+          <td>20</td>
+          <td><input class="eval-mark" type="number" min="0" max="20" placeholder="—"></td>
+          <td style="color:#64748b;font-size:11px;">Validation, global error handler, service layer separation</td>
+        </tr>
+        <tr>
+          <td>Git Versioning, Documentation & Team Integration</td>
+          <td>20</td>
+          <td><input class="eval-mark" type="number" min="0" max="20" placeholder="—"></td>
+          <td style="color:#64748b;font-size:11px;">7 commits, 2 branches, README, integration guide</td>
+        </tr>
+        <tr class="eval-total">
+          <td>🏆 Total Score</td>
+          <td>100</td>
+          <td style="color:#f59e0b">_____ / 100</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sign-row" style="margin-top:28px">
+      <div class="sign-box">
+        <div class="slabel">Guide / Supervisor Name</div>
+        <div style="border-bottom:1px solid #1e2d45;padding-bottom:4px;color:#64748b;font-size:12px;">________________________________</div>
+      </div>
+      <div class="sign-box">
+        <div class="slabel">Signature</div>
+        <div style="border-bottom:1px solid #1e2d45;padding-bottom:4px;color:#64748b;font-size:12px;">________________________________</div>
+      </div>
+      <div class="sign-box">
+        <div class="slabel">Date of Review</div>
+        <div style="border-bottom:1px solid #1e2d45;padding-bottom:4px;color:#64748b;font-size:12px;">________________________________</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<div class="footer">
+  <div style="font-size:13px; color:#94a3b8; margin-bottom:6px;">
+    <strong style="color:#06b6d4">Nexus Flow Backend v1.0.0</strong> &nbsp;·&nbsp;
+    Geospatial Proximity Audio Ecosystem &nbsp;·&nbsp;
+    Author: <strong style="color:#38bdf8">Aman Dwivedi</strong>
+  </div>
+  <div>Generated: November 23, 2026 &nbsp;·&nbsp; Node.js v25.9.0 &nbsp;·&nbsp; MongoDB Time Series &nbsp;·&nbsp; Mongoose 8</div>
+  <div style="margin-top:8px;">
+    🐙 <a href="https://github.com/amandubey0907/My-first-site-" target="_blank" style="color:#06b6d4;text-decoration:none;">github.com/amandubey0907/My-first-site-</a>
+    &nbsp; Branch: <code style="color:#a855f7">nexus-flow-db</code>
+  </div>
+</div>
+
+</body>
+</html>
