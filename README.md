@@ -63,6 +63,7 @@ This module handles **Geospatial Distance Calculation, Proximity Attenuation, an
 | v1.1.0 | 2026-11-02 | Aman Dwivedi | Added keyboard WASD/Arrow navigation, presentation presets, smooth glide animation |
 | v1.2.0 | 2026-11-02 | Aman Dwivedi | Added formal project progress sheet, PDF export, and guide evaluation rubric |
 | v1.3.0 | 2026-11-24 | Aman Dwivedi | Milestone Review 2: added MongoDB Time-Series telemetry backend, live coordinate HUD telemetry tracking & diagnostics |
+| v1.3.1 | 2026-11-25 | Aman Dwivedi | Integrated Nexus Flow visual analytics dashboard into main app suite |
 
 ---
 
