@@ -96,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const teleGain = document.getElementById("teleGain");
   const telePan = document.getElementById("telePan");
   const teleState = document.getElementById("teleState");
+  const teleCoords = document.getElementById("teleCoords");
   const engineStatusText = document.getElementById("engineStatusText");
 
   // -------------------------------------------------------------------------
@@ -469,6 +470,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateTelemetryHUD(dist, gain, pan, targetNode) {
     teleDistance.textContent = `${dist.toFixed(1)} m`;
     teleGain.textContent = `${Math.round(gain * 100)}%`;
+    if (teleCoords) {
+      teleCoords.textContent = `X:${Math.round(listener.x)} Y:${Math.round(listener.y)}`;
+    }
 
     let panText = "Center";
     if (pan < -0.15) panText = `${Math.round(Math.abs(pan) * 100)}% L`;

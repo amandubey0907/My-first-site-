@@ -13,7 +13,7 @@
 | **Student / Contributor** | **Aman Dwivedi** |
 | **Branch Name** | `aman--feature` |
 | **Repository URL** | `https://github.com/amandubey0907/My-first-site-.git` |
-| **Target Review Date** | October 2026 / Academic Milestone Review |
+| **Target Review Date** | 24 November 2026 / Academic Milestone Review 2 |
 | **Module Completion Status** | **100% Complete (Ready for Evaluation & Integration)** |
 
 ---
@@ -53,6 +53,8 @@ flowchart LR
 | **T-08** | **2D Canvas Radar Viewport & HUD**<br>`app.js` & `style.css` | Completed | 100% | High-contrast dark cyber theme with concentric range circles and beacon pulsing. |
 | **T-09** | **Mouse Drag & Keyboard WASD Controls**<br>`app.js` | Completed | 100% | Full multi-key WASD / Arrow movement with `Shift` sprint boost and spacebar toggle. |
 | **T-10** | **Interactive Presentation Demo Presets**<br>`app.js` & `index.html` | Completed | 100% | 5 one-click presets (`Core`, `Mid Decay`, `Cutoff`, `Left Pan`, `Right Pan`) with smooth cubic glide. |
+| **T-11** | **MongoDB Time-Series Telemetry Ingestion Backend**<br>`nexus-flow-backend/` | Completed | 100% | High-frequency telemetry collection (`timeField: timestamp`, `granularity: seconds`), bulk ingest, and session analytics. |
+| **T-12** | **Live Listener Coordinates HUD & System Diagnostics**<br>`app.js` & `audioEngine.js` | Completed | 100% | Real-time $(X, Y)$ coordinate tracking HUD, AudioContext auto-resume guards, and named proximity zone resolvers. |
 
 ---
 

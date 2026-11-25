@@ -239,7 +239,7 @@
     </div>
     <div class="meta-item">
       <span class="meta-label">Review Status:</span>
-      <span class="meta-val">Ready for Faculty / Guide Evaluation</span>
+      <span class="meta-val">24 Nov 2026 (Milestone Review 2) - Ready for Evaluation</span>
     </div>
   </div>
 
@@ -332,6 +332,20 @@
         <td><span class="badge-done">COMPLETED</span></td>
         <td>Core (100%), Mid Decay, Cutoff (0%), Left/Right Ear gliding.</td>
       </tr>
+      <tr>
+        <td><strong>T-11</strong></td>
+        <td><strong>MongoDB Time-Series Telemetry Backend</strong></td>
+        <td><code>nexus-flow-backend/</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>Time-series collection, bulk telemetry ingest & session analytics.</td>
+      </tr>
+      <tr>
+        <td><strong>T-12</strong></td>
+        <td><strong>Live Coordinates HUD & System Diagnostics</strong></td>
+        <td><code>app.js</code> / <code>audioEngine.js</code></td>
+        <td><span class="badge-done">COMPLETED</span></td>
+        <td>Real-time X/Y tracking, AudioContext auto-resume & zone resolver.</td>
+      </tr>
     </tbody>
   </table>
 
@@ -385,32 +399,44 @@
     </thead>
     <tbody>
       <tr>
-        <td><code>fceaaa6</code></td>
-        <td>chore: update author name to Aman Dwivedi across UI, radar canvas and project documentation</td>
+        <td><code>6250fb1</code></td>
+        <td>feat(nexus-flow): add MongoDB Time-Series Telemetry Ingestion backend</td>
         <td><code>aman--feature</code></td>
         <td><span class="badge-done">SYNCED</span></td>
       </tr>
       <tr>
-        <td><code>3d5280b</code></td>
-        <td>docs: add formal project progress sheet and guide evaluation rubric</td>
+        <td><code>9c5ae80</code></td>
+        <td>feat(ui): add keyboard shortcut help tooltip toggled by '?' key</td>
+        <td><code>aman--feature</code></td>
+        <td><span class="badge-done">SYNCED</span></td>
+      </tr>
+      <tr>
+        <td><code>72b4546</code></td>
+        <td>fix(audioEngine): auto-resume suspended AudioContext in updateSpatialParameters</td>
+        <td><code>aman--feature</code></td>
+        <td><span class="badge-done">SYNCED</span></td>
+      </tr>
+      <tr>
+        <td><code>8cee1d9</code></td>
+        <td>feat(audioEngine): add getAudioContextState() diagnostic method</td>
+        <td><code>aman--feature</code></td>
+        <td><span class="badge-done">SYNCED</span></td>
+      </tr>
+      <tr>
+        <td><code>1fe5039</code></td>
+        <td>feat(proximityEngine): add getProximityZone() named zone helper method</td>
+        <td><code>aman--feature</code></td>
+        <td><span class="badge-done">SYNCED</span></td>
+      </tr>
+      <tr>
+        <td><code>aa57aa0</code></td>
+        <td>fix(proximityEngine): add input validation guards to calculateProximityGain</td>
         <td><code>aman--feature</code></td>
         <td><span class="badge-done">SYNCED</span></td>
       </tr>
       <tr>
         <td><code>9fcc14f</code></td>
         <td>feat(presentation): add interactive demo presets and smooth glide animation for live presentations</td>
-        <td><code>aman--feature</code></td>
-        <td><span class="badge-done">SYNCED</span></td>
-      </tr>
-      <tr>
-        <td><code>492c697</code></td>
-        <td>feat(navigation): add keyboard WASD and arrow controls for radar navigation</td>
-        <td><code>aman--feature</code></td>
-        <td><span class="badge-done">SYNCED</span></td>
-      </tr>
-      <tr>
-        <td><code>4308950</code></td>
-        <td>feat(audio): complete geospatial proximity audio and live spatial sound engine</td>
         <td><code>aman--feature</code></td>
         <td><span class="badge-done">SYNCED</span></td>
       </tr>
